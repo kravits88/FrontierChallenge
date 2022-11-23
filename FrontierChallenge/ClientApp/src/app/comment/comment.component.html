@@ -1,0 +1,72 @@
+
+<div *ngIf="comment" class="card {{comment.replyingTo ? 'mb-1' : 'mb-3'}}">
+  <div class="card-body">
+
+    <div class="d-flex flex-row p-1">
+      <div>
+
+        <i class="bi bi-plus-lg clickable text-primary" (click)="updateScore(1)"></i>
+
+        <div class="text-center text-primary">{{comment.score}}</div>
+
+        <i class="bi bi-dash-lg clickable text-primary" (click)="updateScore(-1)"></i>
+
+      </div>
+      <div class="ms-3 w-100">
+        <div>
+          <img [src]="comment.user?.image?.png" class="img-fluid userImg" />
+          {{comment.user?.userName}}
+          <span class="badge text-bg-primary" *ngIf="(currentUser$ | async)?.userName === comment.user?.userName">YOU</span>
+
+          <span class="text-secondary ms-3">{{comment.createdAt!.toString() | timeAgo}}</span>
+
+          <span class="float-end text-primary clickable" *ngIf="(currentUser$ | async)?.userName !== comment.user?.userName" (click)="isReplying = !isReplying">
+            <i class="bi bi-reply-fill"></i> Reply
+          </span>
+
+          <span class="float-end text-primary clickable" *ngIf="(currentUser$ | async)?.userName === comment.user?.userName" (click)="isEditing = !isEditing">
+            <i class="bi bi-pencil-fill"></i> Edit
+          </span>
+
+          <span class="float-end text-danger clickable me-3" *ngIf="isEditing" (click)="confirmDelete()">
+            <i class="bi bi-trash-fill"></i> Delete
+          </span>
+
+        </div>
+
+        <span *ngIf="!isEditing">
+          <span *ngIf="comment.replyingTo" class="replyingToName">@{{comment.replyingTo}} </span>{{comment.content}}
+        </span>
+
+        <span *ngIf="isEditing">
+          <app-commment-create [comment]="comment"></app-commment-create>
+        </span>
+
+      </div>
+    </div>
+
+  </div>
+</div>
+
+<div class="d-flex mb-3">
+  <div class="vr ms-3 me-3" *ngIf="comment.replies?.length"></div>
+
+  <div class="w-100">
+    <app-comment *ngFor="let reply of comment.replies" [comment]="reply"></app-comment>
+
+    <div class="card" *ngIf="isReplying" @fadeAnimation>
+      <div class="card-body">
+        <div class="d-flex">
+          <img [src]="(currentUser$ | async)?.image?.png" class="img-fluid userImg" />
+          <div class="w-100">
+            <app-commment-create [replyingToComment]="comment"></app-commment-create>
+          </div>
+        </div>
+      </div>
+    </div>
+
+
+  </div>
+</div>
+
+

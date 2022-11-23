@@ -1,0 +1,10 @@
+<div class="d-flex">
+  <div class="form-floating flex-grow-1 mx-1 mx-lg-3">
+    <textarea class="form-control border border-primary border-opacity-50 h-auto" placeholder="{{placeHolder}}" id="createComment{{comment.id}}" [(ngModel)]="comment.content"></textarea>
+    <label for="createComment{{comment.id}}" class="text-primary">{{placeHolder}}</label>
+  </div>
+
+  <div>
+    <div class="btn btn-primary" (click)="sendComment()">SEND</div>
+  </div>
+</div>

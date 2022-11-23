@@ -1,0 +1,19 @@
+<div class="container">
+  <div class="row justify-content-center">
+    <div class="col-xl-8">
+
+      <app-comment *ngFor="let comment of comments$ | async | sortDesc:'score'" [comment]="comment"></app-comment>
+
+      <div class="card">
+        <div class="card-body">
+          <div class="d-flex">
+            <img [src]="(currentUser$ | async)?.image?.png" class="img-fluid userImg" />
+            <div class="w-100">
+              <app-commment-create></app-commment-create>
+            </div>
+          </div>
+        </div>
+      </div>
+    </div>
+  </div>
+</div>
